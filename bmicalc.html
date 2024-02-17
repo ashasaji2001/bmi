@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+
+        #bmiCalculator {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        #gaugeContainer {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+        }
+
+        #gauge {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid #3498db;
+            position: absolute;
+        }
+
+        #needle {
+            width: 2px;
+            height: 100px;
+            background-color: #e74c3c;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: 50% 100%;
+            transform: translateX(-50%) rotate(0deg);
+            transition: transform 0.5s ease;
+        }
+
+        #bmiValue {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <title>BMI Calculator</title>
+</head>
+<body>
+    <div id="bmiCalculator">
+        <h2>BMI Calculator</h2>
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" placeholder="Enter height" required>
+        <br>
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" placeholder="Enter weight" required>
+        <br>
+        <button onclick="calculateBMI()">Calculate BMI</button>
+        <div id="gaugeContainer">
+            <div id="gauge"></div>
+            <div id="needle"></div>
+        </div>
+        <div id="bmiValue"></div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            var height = document.getElementById("height").value;
+            var weight = document.getElementById("weight").value;
+
+            if (height === "" || weight === "") {
+                alert("Please enter both height and weight");
+                return;
+            }
+
+            var bmi = weight / ((height / 100) * (height / 100));
+            displayBMI(bmi);
+        }
+
+        function displayBMI(bmi) {
+            var needle = document.getElementById("needle");
+            var bmiValue = document.getElementById("bmiValue");
+
+            // Adjust the rotation of the needle based on the BMI value
+            var rotation = (bmi - 18.5) * (180 / (30 - 18.5));
+            needle.style.transform = "translateX(-50%) rotate(" + rotation + "deg)";
+
+            // Display the BMI value
+            bmiValue.innerHTML = "BMI: " + bmi.toFixed(2);
+        }
+    </script>
+</body>
+</html>
